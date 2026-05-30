@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Assessment.ViewModels"
+             x:Class="Assessment.MainPage"
+             x:DataType="vm:DishListViewModel"
+             Title="Mei Wei Xuan">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+        <Grid Grid.Row="0" BackgroundColor="{StaticResource Primary}" Padding="20,30">
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                <Label Text="🍽️ Mei Wei Xuan" 
+                       FontSize="26" FontAttributes="Bold" 
+                       TextColor="White" HorizontalOptions="Center" />
+                <Label Text="Authentic Chinese Cuisine · Fresh Delivery" 
+                       FontSize="14" TextColor="#DFD8F7" 
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <ScrollView Grid.Row="1" Padding="15">
+            <VerticalStackLayout Spacing="15">
+
+                <Label Text="Welcome!" Style="{StaticResource Headline}" Margin="0,10,0,0" />
+
+                <Label Text="Select a feature to get started" 
+                       Style="{StaticResource SubHeadline}" />
+
+                <Frame Padding="0" CornerRadius="12" BorderColor="Transparent" HasShadow="True">
+                    <Grid ColumnDefinitions="*,Auto" Padding="15" BackgroundColor="White">
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="📋 Browse Dishes" FontSize="18" FontAttributes="Bold" />
+                            <Label Text="View all dishes, filter by category, pick your favorites" 
+                                   FontSize="13" TextColor="{StaticResource Gray500}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Enter" 
+                                Command="{Binding NavigateToDetailCommand}"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <Frame Padding="0" CornerRadius="12" BorderColor="Transparent" HasShadow="True">
+                    <Grid ColumnDefinitions="*,Auto" Padding="15" BackgroundColor="White">
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="📍 Store Location" FontSize="18" FontAttributes="Bold" />
+                            <Label Text="View store location on map, get coordinates and distance info" 
+                                   FontSize="13" TextColor="{StaticResource Gray500}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Enter" 
+                                Command="{Binding NavigateToMapCommand}"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <Frame Padding="0" CornerRadius="12" BorderColor="Transparent" HasShadow="True">
+                    <Grid ColumnDefinitions="*,Auto" Padding="15" BackgroundColor="White">
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="🛒 Cart" FontSize="18" FontAttributes="Bold" />
+                            <Label x:Name="CartInfoLabel" Text="View selected dishes and confirm your order" 
+                                   FontSize="13" TextColor="{StaticResource Gray500}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Enter" 
+                                Command="{Binding NavigateToCartCommand}"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <Label Text="Cart status refreshes automatically when you return to this page" 
+                       FontSize="11" TextColor="{StaticResource Gray400}" HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

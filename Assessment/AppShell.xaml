@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Assessment.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Assessment.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Mei Wei Xuan"
+    Shell.TabBarBackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark=#1E1E1E}"
+    Shell.TabBarTitleColor="{AppThemeBinding Light={StaticResource Primary}, Dark=#BB86FC}"
+    Shell.TabBarUnselectedColor="{AppThemeBinding Light={StaticResource Gray400}, Dark=#888888}">
+
+    <TabBar>
+        <ShellContent
+            Title="Order"
+            Icon="dotnet_bot.png"
+            ContentTemplate="{DataTemplate views:DishListPage}"
+            Route="DishList" />
+
+        <ShellContent
+            Title="Reviews"
+            Icon="dotnet_bot.png"
+            ContentTemplate="{DataTemplate views:ReviewPage}"
+            Route="Review" />
+
+        <ShellContent
+            Title="Delivery"
+            Icon="dotnet_bot.png"
+            ContentTemplate="{DataTemplate views:DeliveryPage}"
+            Route="Delivery" />
+
+        <ShellContent
+            Title="Settings"
+            Icon="dotnet_bot.png"
+            ContentTemplate="{DataTemplate views:SettingsPage}"
+            Route="Settings" />
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Assessment.ViewModels"
+             x:Class="Assessment.Views.WelcomePage"
+             x:DataType="vm:WelcomeViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Primary}">
+
+    <Grid RowDefinitions="*,Auto,Auto" Padding="30">
+
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center" Spacing="20">
+            <Frame CornerRadius="60" WidthRequest="120" HeightRequest="120" 
+                   BackgroundColor="White" Padding="0" HasShadow="False"
+                   HorizontalOptions="Center" BorderColor="Transparent">
+                <Label Text="🍽️" FontSize="56" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Frame>
+
+            <Label Text="{Binding WelcomeText}" 
+                   FontSize="32" FontAttributes="Bold" 
+                   TextColor="White" HorizontalOptions="Center" />
+
+            <Label Text="{Binding SubtitleText}" 
+                   FontSize="16" TextColor="#DFD8F7" 
+                   HorizontalOptions="Center" />
+
+            <BoxView HeightRequest="30" Color="Transparent" />
+
+            <ActivityIndicator IsRunning="True" Color="White" 
+                               HorizontalOptions="Center" />
+            <Label Text="Loading..." FontSize="13" TextColor="#DFD8F7" 
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="0,0,0,30">
+            <Button Text="Enter App →" 
+                    FontSize="18" FontAttributes="Bold"
+                    BackgroundColor="White" TextColor="{StaticResource Primary}"
+                    CornerRadius="25" HeightRequest="50"
+                    Command="{Binding EnterAppCommand}"
+                    HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+
+        <Label Grid.Row="2" Text="v1.0 · .NET MAUI" 
+               FontSize="11" TextColor="#9880e5" 
+               HorizontalOptions="Center" Margin="0,0,0,20" />
+    </Grid>
+</ContentPage>

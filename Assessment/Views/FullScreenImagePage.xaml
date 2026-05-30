@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Assessment.ViewModels"
+             x:Class="Assessment.Views.FullScreenImagePage"
+             x:DataType="vm:FullScreenImageViewModel"
+             Title="{Binding Title}"
+             Shell.NavBarIsVisible="True"
+             BackgroundColor="Black">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <Grid Grid.Row="0" BackgroundColor="Black">
+            <Image x:Name="FullImage"
+                   Source="{Binding ImageName, Converter={StaticResource DishImageConverter}}"
+                   Aspect="AspectFit"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+                <Image.GestureRecognizers>
+                    <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Label Text="👆 Use pinch gesture to zoom" 
+                   FontSize="12" TextColor="#888888" 
+                   VerticalOptions="End" HorizontalOptions="Center"
+                   Margin="0,0,0,10" />
+        </Grid>
+
+        <Frame Grid.Row="1" BackgroundColor="#2A2A2A" Padding="10,5"
+               HasShadow="False" BorderColor="Transparent" CornerRadius="0">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                <Button Text="🔍 -" FontSize="14"
+                        BackgroundColor="#444444" TextColor="White"
+                        CornerRadius="20" WidthRequest="48" HeightRequest="40" Padding="0"
+                        Command="{Binding ZoomOutCommand}" />
+                <Button Text="↺ Reset" FontSize="14"
+                        BackgroundColor="#444444" TextColor="White"
+                        CornerRadius="20" WidthRequest="80" HeightRequest="40" Padding="0"
+                        Command="{Binding ResetZoomCommand}" />
+                <Button Text="🔍 +" FontSize="14"
+                        BackgroundColor="#444444" TextColor="White"
+                        CornerRadius="20" WidthRequest="48" HeightRequest="40" Padding="0"
+                        Command="{Binding ZoomInCommand}" />
+                <Button Text="✕ Close" FontSize="14"
+                        BackgroundColor="#E53935" TextColor="White"
+                        CornerRadius="20" WidthRequest="80" HeightRequest="40" Padding="0"
+                        Command="{Binding GoBackCommand}" />
+            </HorizontalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>
