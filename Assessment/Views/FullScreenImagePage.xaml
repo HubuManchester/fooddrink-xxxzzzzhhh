@@ -10,16 +10,18 @@
 
     <Grid RowDefinitions="*,Auto">
 
-        <Grid Grid.Row="0" BackgroundColor="Black">
+        <Grid x:Name="ZoomContainer" Grid.Row="0" BackgroundColor="Black">
+            <Grid.GestureRecognizers>
+                <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+            </Grid.GestureRecognizers>
+
             <Image x:Name="FullImage"
                    Source="{Binding ImageName, Converter={StaticResource DishImageConverter}}"
                    Aspect="AspectFit"
+                   Scale="{Binding CurrentScale}"
+                   AnchorX="0.5" AnchorY="0.5"
                    VerticalOptions="Center"
-                   HorizontalOptions="Center">
-                <Image.GestureRecognizers>
-                    <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
-                </Image.GestureRecognizers>
-            </Image>
+                   HorizontalOptions="Center" />
 
             <Label Text="👆 Use pinch gesture to zoom" 
                    FontSize="12" TextColor="#888888" 
@@ -33,15 +35,15 @@
                 <Button Text="🔍 -" FontSize="14"
                         BackgroundColor="#444444" TextColor="White"
                         CornerRadius="20" WidthRequest="48" HeightRequest="40" Padding="0"
-                        Command="{Binding ZoomOutCommand}" />
+                        Clicked="OnZoomOutClicked" />
                 <Button Text="↺ Reset" FontSize="14"
                         BackgroundColor="#444444" TextColor="White"
                         CornerRadius="20" WidthRequest="80" HeightRequest="40" Padding="0"
-                        Command="{Binding ResetZoomCommand}" />
+                        Clicked="OnResetZoomClicked" />
                 <Button Text="🔍 +" FontSize="14"
                         BackgroundColor="#444444" TextColor="White"
                         CornerRadius="20" WidthRequest="48" HeightRequest="40" Padding="0"
-                        Command="{Binding ZoomInCommand}" />
+                        Clicked="OnZoomInClicked" />
                 <Button Text="✕ Close" FontSize="14"
                         BackgroundColor="#E53935" TextColor="White"
                         CornerRadius="20" WidthRequest="80" HeightRequest="40" Padding="0"

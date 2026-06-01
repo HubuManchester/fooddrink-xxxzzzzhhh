@@ -102,7 +102,7 @@ namespace Assessment.Converters
             {
                 return ImageSource.FromFile(imageName);
             }
-            return ImageSource.FromFile("dotnet_bot.png");
+            return ImageSource.FromFile("general.jpg");
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

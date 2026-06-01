@@ -11,7 +11,7 @@ namespace Assessment.ViewModels
         private readonly DishService _dishService;
         private readonly CartService _cartService;
 
-        private const int PageSize = 6;
+        private const int PageSize = 10;
         private const double ShakeThreshold = 1.5;
         private const double DeltaThreshold = 0.4;
         private const double ShakeDebounceMs = 1500;
@@ -121,7 +121,7 @@ namespace Assessment.ViewModels
         }
 
         [RelayCommand]
-        private void LoadMore()
+        private async Task LoadMore()
         {
             if (_allLoaded || IsLoadingMore || IsBusy)
                 return;
@@ -129,6 +129,9 @@ namespace Assessment.ViewModels
             try
             {
                 IsLoadingMore = true;
+
+                await Task.Delay(600);
+
                 _currentPage++;
 
                 var nextPage = _dishService.GetDishesPaged(_currentPage, PageSize, SelectedCategory);

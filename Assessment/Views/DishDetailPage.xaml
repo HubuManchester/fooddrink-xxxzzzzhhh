@@ -11,13 +11,19 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="12" Padding="15">
 
-                <Frame CornerRadius="12" Padding="0" HasShadow="False" 
+                <Frame x:Name="DetailImageFrame" CornerRadius="12" Padding="0" HasShadow="False" 
                        BorderColor="{StaticResource Gray200}" BackgroundColor="{StaticResource Gray100}"
-                       HeightRequest="220">
-                    <Image Source="{Binding Dish.ImageName, Converter={StaticResource DishImageConverter}}" Aspect="AspectFit">
+                       HeightRequest="250">
+                    <Frame.GestureRecognizers>
+                        <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                    </Frame.GestureRecognizers>
+                    <Image x:Name="DetailImage"
+                           Source="{Binding Dish.ImageName, Converter={StaticResource DishImageConverter}}" 
+                           Aspect="AspectFit"
+                           Scale="{Binding CurrentScale}"
+                           AnchorX="0.5" AnchorY="0.5">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenFullScreenImageCommand}" />
-                            <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
                         </Image.GestureRecognizers>
                     </Image>
                 </Frame>
