@@ -1,35 +1,106 @@
+using System.Text.Json;
 using Assessment.Models;
 
 namespace Assessment.Services
 {
     public class DishService
     {
-        private List<Dish> _dishes;
+        private readonly string _dataFilePath;
 
         public DishService()
         {
-            _dishes = GenerateDishes();
+            _dataFilePath = GetDataFilePath();
+            InitializeDataFile();
         }
 
-        public List<Dish> GetAllDishes() => _dishes;
+        private string GetDataFilePath()
+        {
+            var appDataDir = FileSystem.AppDataDirectory;
+            return Path.Combine(appDataDir, "dishes.json");
+        }
 
-        public Dish? GetDishById(int id) => _dishes.FirstOrDefault(d => d.Id == id);
+        private void InitializeDataFile()
+        {
+            if (!File.Exists(_dataFilePath))
+            {
+                var dishes = GenerateDefaultDishes();
+                SaveDishesToFile(dishes);
+            }
+        }
+
+        private List<Dish> LoadDishesFromFile()
+        {
+            try
+            {
+                var jsonContent = File.ReadAllText(_dataFilePath);
+                return JsonSerializer.Deserialize<List<Dish>>(jsonContent) ?? new List<Dish>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[DishService] Failed to load dishes: {ex.Message}");
+                return GenerateDefaultDishes();
+            }
+        }
+
+        private void SaveDishesToFile(List<Dish> dishes)
+        {
+            try
+            {
+                var jsonContent = JsonSerializer.Serialize(dishes, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_dataFilePath, jsonContent);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[DishService] Failed to save dishes: {ex.Message}");
+            }
+        }
+
+        public List<Dish> GetAllDishes() => LoadDishesFromFile();
+
+        public Dish? GetDishById(int id) => LoadDishesFromFile().FirstOrDefault(d => d.Id == id);
 
         public List<Dish> GetDishesByCategory(string category) =>
-            _dishes.Where(d => d.Category == category).ToList();
+            LoadDishesFromFile().Where(d => d.Category == category).ToList();
 
         public List<Dish> GetDishesPaged(int page, int pageSize, string? category = null)
         {
+            var dishes = LoadDishesFromFile();
             var source = category == null || category == "All"
-                ? _dishes
-                : _dishes.Where(d => d.Category == category);
+                ? dishes
+                : dishes.Where(d => d.Category == category);
             return source.Skip(page * pageSize).Take(pageSize).ToList();
         }
 
         public List<string> GetCategories() =>
-            _dishes.Select(d => d.Category).Distinct().ToList();
+            LoadDishesFromFile().Select(d => d.Category).Distinct().ToList();
 
-        private static List<Dish> GenerateDishes()
+        public void AddDish(Dish dish)
+        {
+            var dishes = LoadDishesFromFile();
+            dish.Id = dishes.Any() ? dishes.Max(d => d.Id) + 1 : 1;
+            dishes.Add(dish);
+            SaveDishesToFile(dishes);
+        }
+
+        public void UpdateDish(Dish dish)
+        {
+            var dishes = LoadDishesFromFile();
+            var index = dishes.FindIndex(d => d.Id == dish.Id);
+            if (index != -1)
+            {
+                dishes[index] = dish;
+                SaveDishesToFile(dishes);
+            }
+        }
+
+        public void DeleteDish(int dishId)
+        {
+            var dishes = LoadDishesFromFile();
+            dishes.RemoveAll(d => d.Id == dishId);
+            SaveDishesToFile(dishes);
+        }
+
+        private List<Dish> GenerateDefaultDishes()
         {
             return new List<Dish>
             {
@@ -96,7 +167,7 @@ namespace Assessment.Services
                 new Dish
                 {
                     Id = 11, Name = "Stir-Fried Rice Noodles", Category = "Cantonese",
-                    Description = "A classic Cantonese street food dish. Wide rice noodles are wok-fried over intense heat with beef and bean sprouts, developing that signature wok hei (breath of the wok) for a smoky, deeply satisfying flavor.",
+                    Description = "A classic Cantonese street food dish. Wide rice noodles are wok-fried over intense heat with beef and bean sprouts, developing that signature wok hei (breath of wok) for a smoky, deeply satisfying flavor.",
                     Price = 35.00m, ImageName = "ganchaoniuhe.jpg", Rating = 4.6, IsSpicy = false, PrepTimeMinutes = 15
                 },
                 new Dish
@@ -133,7 +204,7 @@ namespace Assessment.Services
                 {
                     Id = 17, Name = "Di San Xian", Category = "Dongbei",
                     Description = "A beloved Dongbei home-style dish. Eggplant, potato, and green pepper are stir-fried together in a savory sauce. The three vegetables complement each other perfectly, creating a nutritious and satisfying vegetarian-friendly option.",
-                    Price = 22.00m, ImageName = "disanxian.jpg", Rating = 4.4, IsSpicy = false, IsVegetarian = true, PrepTimeMinutes = 15
+                    Price = 22.00m, ImageName = "disanxian.jpg", Rating = 4.4, IsSpicy = false, PrepTimeMinutes = 15, IsVegetarian = true
                 },
                 new Dish
                 {

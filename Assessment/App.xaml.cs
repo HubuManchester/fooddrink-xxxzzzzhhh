@@ -4,11 +4,11 @@ namespace Assessment
 {
     public partial class App : Application
     {
-        public App(ThemeService themeService)
+        public App(ThemeService themeService, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             themeService.Initialize();
-            MainPage = new NavigationPage(new Views.WelcomePage());
+            MainPage = new NavigationPage(serviceProvider.GetRequiredService<Views.WelcomePage>());
         }
     }
 }

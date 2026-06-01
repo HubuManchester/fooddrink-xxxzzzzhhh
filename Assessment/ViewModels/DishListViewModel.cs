@@ -338,8 +338,9 @@ namespace Assessment.ViewModels
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[Shake] Recommend failed: {ex.Message}");
             }
         }
     }

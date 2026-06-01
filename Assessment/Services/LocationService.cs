@@ -54,7 +54,7 @@ namespace Assessment.Services
         private static (double Latitude, double Longitude, string Address)? GetMockLocation(string reason)
         {
             System.Diagnostics.Debug.WriteLine($"[Location] {reason}: {MockLatitude}, {MockLongitude}");
-            return (MockLatitude, MockLongitude, $"{MockAddress} ({reason})");
+            return (MockLatitude, MockLongitude, MockAddress);
         }
 
         public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)

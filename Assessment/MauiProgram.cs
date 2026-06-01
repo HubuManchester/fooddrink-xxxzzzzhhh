@@ -47,6 +47,7 @@ namespace Assessment
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<FullScreenImagePage>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<AppShell>();
 
 #if DEBUG
             builder.Logging.AddDebug();

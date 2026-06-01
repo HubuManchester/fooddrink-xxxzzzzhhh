@@ -6,8 +6,6 @@ namespace Assessment.Views
     {
         private readonly WelcomeViewModel _viewModel;
 
-        public WelcomePage() : this(ServiceHelper.GetService<WelcomeViewModel>()) { }
-
         public WelcomePage(WelcomeViewModel viewModel)
         {
             InitializeComponent();

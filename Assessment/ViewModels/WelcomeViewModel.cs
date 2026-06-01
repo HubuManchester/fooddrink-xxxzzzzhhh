@@ -1,10 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Assessment.ViewModels
 {
     public partial class WelcomeViewModel : BaseViewModel
     {
+        private readonly IServiceProvider _serviceProvider;
+
         [ObservableProperty]
         private string _welcomeText = "Mei Wei Xuan";
 
@@ -14,15 +17,16 @@ namespace Assessment.ViewModels
         [ObservableProperty]
         private bool _isAnimating;
 
-        public WelcomeViewModel()
+        public WelcomeViewModel(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             Title = "Welcome";
         }
 
         [RelayCommand]
         private void EnterApp()
         {
-            Application.Current!.MainPage = new AppShell();
+            Application.Current!.MainPage = _serviceProvider.GetRequiredService<AppShell>();
         }
 
         public async Task AutoEnter()
