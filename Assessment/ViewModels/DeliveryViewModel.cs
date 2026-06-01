@@ -1,6 +1,7 @@
 using Assessment.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Linq;
 
 namespace Assessment.ViewModels
 {
@@ -75,10 +76,14 @@ namespace Assessment.ViewModels
                         DeliveryAddress = result.Value.Address;
                     }
                 }
+                else
+                {
+                    SetError("Failed to obtain location. Please ensure location services are enabled and try again.");
+                }
             }
             catch (Exception ex)
             {
-                SetError(ex.Message);
+                SetError($"Location error: {ex.Message}");
             }
             finally
             {
@@ -95,25 +100,38 @@ namespace Assessment.ViewModels
 
                 if (!_cartService.Items.Any())
                 {
-                    SetError("Cart is empty. Please add dishes first.");
+                    SetError("Your cart is empty. Please add dishes before placing a delivery order.");
                     return;
                 }
 
                 if (!HasLocation)
                 {
-                    SetError("Please get your location first.");
+                    SetError("Location not obtained. Please tap the button above to get your current location first.");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(DeliveryAddress))
                 {
-                    SetError("Please enter a delivery address.");
+                    SetError("Delivery address is required.\nPlease enter your full delivery address.");
+                    return;
+                }
+
+                if (DeliveryAddress.Trim().Length < 5)
+                {
+                    SetError("Delivery address is too short.\nPlease enter a complete address including street name and building/house number.");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(PhoneNumber))
                 {
-                    SetError("Please enter a phone number.");
+                    SetError("Phone number is required.\nPlease enter a contact phone number for the delivery rider.");
+                    return;
+                }
+
+                var digitsOnly = new string(PhoneNumber.Where(char.IsDigit).ToArray());
+                if (digitsOnly.Length < 7 || digitsOnly.Length > 15)
+                {
+                    SetError("Invalid phone number.\nPlease enter a valid phone number (7-15 digits).");
                     return;
                 }
 

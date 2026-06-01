@@ -9,6 +9,13 @@
     <ScrollView>
         <VerticalStackLayout Padding="15" Spacing="15">
 
+            <Frame IsVisible="{Binding HasError}" 
+                   BackgroundColor="#FFF3CD" Padding="10" CornerRadius="8"
+                   HasShadow="False" BorderColor="#FFC107">
+                <Label Text="{Binding ErrorMessage}" TextColor="#856404" FontSize="14"
+                       HorizontalOptions="Center" />
+            </Frame>
+
             <Frame Padding="15" CornerRadius="12" HasShadow="True" 
                    BorderColor="Transparent" BackgroundColor="White">
                 <VerticalStackLayout Spacing="8">
