@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using Assessment.Models;
 using Assessment.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace Assessment.ViewModels
 {
@@ -60,7 +60,7 @@ namespace Assessment.ViewModels
         private bool _isRefreshing;
 
         [RelayCommand]
-        private async Task Refresh()
+        private void Refresh()
         {
             try
             {
@@ -124,7 +124,9 @@ namespace Assessment.ViewModels
         private async Task LoadMore()
         {
             if (_allLoaded || IsLoadingMore || IsBusy)
+            {
                 return;
+            }
 
             try
             {
@@ -202,7 +204,10 @@ namespace Assessment.ViewModels
         [RelayCommand]
         private async Task NavigateToDetail(Dish dish)
         {
-            if (dish == null) return;
+            if (dish == null)
+            {
+                return;
+            }
             var navigationParameter = new Dictionary<string, object>
             {
                 { "Dish", dish }
@@ -279,7 +284,7 @@ namespace Assessment.ViewModels
             var y = reading.Acceleration.Y;
             var z = reading.Acceleration.Z;
 
-            var magnitude = Math.Sqrt(x * x + y * y + z * z);
+            var magnitude = Math.Sqrt((x * x) + (y * y) + (z * z));
 
             if (_warmupCount > 0)
             {
@@ -302,11 +307,16 @@ namespace Assessment.ViewModels
             _lastY = y;
             _lastZ = z;
 
-            if (!shakeDetected) return;
+            if (!shakeDetected)
+            {
+                return;
+            }
 
             var now = DateTime.Now;
             if ((now - _lastShakeTime).TotalMilliseconds < ShakeDebounceMs)
+            {
                 return;
+            }
 
             _lastShakeTime = now;
 
@@ -318,7 +328,10 @@ namespace Assessment.ViewModels
             try
             {
                 var allDishes = _dishService.GetAllDishes();
-                if (allDishes.Count == 0) return;
+                if (allDishes.Count == 0)
+                {
+                    return;
+                }
 
                 var random = new Random();
                 var recommended = allDishes[random.Next(allDishes.Count)];

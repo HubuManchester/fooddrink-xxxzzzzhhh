@@ -7,7 +7,10 @@ namespace Assessment.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool isActive && isActive)
+            {
                 return Color.FromArgb("#4CAF50");
+            }
+
             return Color.FromArgb("#80FFFFFF");
         }
 
@@ -22,7 +25,10 @@ namespace Assessment.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is int intValue)
+            {
                 return intValue > 0;
+            }
+
             return false;
         }
 
@@ -37,14 +43,20 @@ namespace Assessment.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool boolValue)
+            {
                 return !boolValue;
+            }
+
             return false;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool boolValue)
+            {
                 return !boolValue;
+            }
+
             return false;
         }
     }
@@ -54,7 +66,10 @@ namespace Assessment.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool isBusy && isBusy)
+            {
                 return "Getting location...";
+            }
+
             return "📍 Get My Location";
         }
 
@@ -72,6 +87,7 @@ namespace Assessment.Converters
             {
                 return buttonRating <= rating ? Color.FromArgb("#FFD700") : Color.FromArgb("#E0E0E0");
             }
+
             return Color.FromArgb("#E0E0E0");
         }
 
@@ -102,6 +118,7 @@ namespace Assessment.Converters
             {
                 return ImageSource.FromFile(imageName);
             }
+
             return ImageSource.FromFile("general.jpg");
         }
 

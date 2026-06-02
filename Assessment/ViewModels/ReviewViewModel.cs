@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using Assessment.Models;
 using Assessment.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace Assessment.ViewModels
 {
@@ -91,7 +91,10 @@ namespace Assessment.ViewModels
                 }
 
                 var photo = await MediaPicker.Default.CapturePhotoAsync();
-                if (photo == null) return;
+                if (photo == null)
+                {
+                    return;
+                }
 
                 var localPath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
                 using (var sourceStream = await photo.OpenReadAsync())

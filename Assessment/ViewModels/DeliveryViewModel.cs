@@ -1,7 +1,6 @@
 using Assessment.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Linq;
 
 namespace Assessment.ViewModels
 {

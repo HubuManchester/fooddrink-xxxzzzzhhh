@@ -1,5 +1,5 @@
-using System.Text.Json;
 using Assessment.Models;
+using System.Text.Json;
 
 namespace Assessment.Services
 {
@@ -94,7 +94,7 @@ namespace Assessment.Services
         private static List<Dish> SortDishes(List<Dish> dishes)
         {
             return dishes
-                .OrderByDescending(d => SpecificImages.Contains(d.ImageName ?? ""))
+                .OrderByDescending(d => SpecificImages.Contains(d.ImageName ?? string.Empty))
                 .ThenBy(d => d.Id)
                 .ToList();
         }

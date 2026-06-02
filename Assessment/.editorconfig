@@ -1,0 +1,71 @@
+root = true
+
+[*.cs]
+
+# SA1600: Elements should be documented (suppressed - not practical for this project)
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1601: Partial elements should be documented (suppressed - XAML code-behind)
+dotnet_diagnostic.SA1601.severity = none
+
+# SA1633: File header is missing (suppressed - not required for this project)
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1101: Prefix local calls with this (suppressed - style preference)
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1402: File may only contain a single type (suppressed - converters file)
+dotnet_diagnostic.SA1402.severity = none
+
+# SA1649: File name should match first type name (suppressed - converters file)
+dotnet_diagnostic.SA1649.severity = none
+
+# SA1309: Field names should not begin with underscore (suppressed - style preference)
+dotnet_diagnostic.SA1309.severity = none
+
+# SA1200: Using directives placement (suppressed - style preference)
+dotnet_diagnostic.SA1200.severity = none
+
+# SA1201: Elements should appear in correct order (suppressed - style preference)
+dotnet_diagnostic.SA1201.severity = none
+
+# SA1202: Public members should come before private members (suppressed - style preference)
+dotnet_diagnostic.SA1202.severity = none
+
+# SA1203: Constant fields should appear before non-constant fields (suppressed - style preference)
+dotnet_diagnostic.SA1203.severity = none
+
+# SA1204: Static members should appear before non-static members (suppressed - style preference)
+dotnet_diagnostic.SA1204.severity = none
+
+# SA1413: Use trailing comma in multi-line initializers (suppressed - style preference)
+dotnet_diagnostic.SA1413.severity = none
+
+# SA1513: Closing brace should be followed by blank line (suppressed - style preference)
+dotnet_diagnostic.SA1513.severity = none
+
+# SA1508: Closing brace should not be preceded by blank line (suppressed - style preference)
+dotnet_diagnostic.SA1508.severity = none
+
+# SA1512: Single-line comments should not be followed by blank line (suppressed - style preference)
+dotnet_diagnostic.SA1512.severity = none
+
+# SA1132: Each field should be declared on its own line (suppressed - style preference)
+dotnet_diagnostic.SA1132.severity = none
+
+# SA1127: Generic type constraints should be on their own line (suppressed - style preference)
+dotnet_diagnostic.SA1127.severity = none
+
+# SA1118: Parameter should not span multiple lines (suppressed - style preference)
+dotnet_diagnostic.SA1118.severity = none
+
+# SA1117: Parameters should all be on same line or each on own line (suppressed - style preference)
+dotnet_diagnostic.SA1117.severity = none
+
+# SA1502: Element should not be on a single line (suppressed - style preference)
+dotnet_diagnostic.SA1502.severity = none
+
+dotnet_diagnostic.SA1208.severity = none
+
+# SA1128: Constructor initializer should be on its own line (suppressed - style preference)
+dotnet_diagnostic.SA1128.severity = none

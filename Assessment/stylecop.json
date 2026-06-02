@@ -1,0 +1,33 @@
+{
+    "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+    "settings": {
+        "documentationRules": {
+            "companyName": "Assessment",
+            "copyrightText": "Copyright (c) {companyName}. All rights reserved.",
+            "xmlHeader": false,
+            "fileNamingConvention": "stylecop"
+        },
+        "orderingRules": {
+            "usingDirectivesPlacement": "outsideNamespace",
+            "systemUsingDirectivesFirst": true
+        },
+        "layoutRules": {
+            "newlineAtEndOfFile": "require"
+        },
+        "indentation": {
+            "indentationSize": 4,
+            "tabSize": 4,
+            "useTabs": false
+        },
+        "namingRules": {
+            "allowCommonHungarianPrefixes": true,
+            "allowedHungarianPrefixes": [ "my", "is", "has" ]
+        },
+        "maintainabilityRules": {
+            "topLevelTypes": [ "class", "interface", "enum", "struct" ]
+        },
+        "readabilityRules": {
+            "allowBuiltInTypeAliases": true
+        }
+    }
+}

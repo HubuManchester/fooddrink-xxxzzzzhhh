@@ -42,9 +42,13 @@ namespace Assessment.Services
             if (item != null)
             {
                 if (quantity <= 0)
+                {
                     Items.Remove(item);
+                }
                 else
+                {
                     item.Quantity = quantity;
+                }
                 CartChanged?.Invoke();
             }
         }

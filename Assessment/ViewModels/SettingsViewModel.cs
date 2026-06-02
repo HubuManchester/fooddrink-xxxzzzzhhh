@@ -74,7 +74,10 @@ namespace Assessment.ViewModels
                     "Are you sure you want to clear all cart and review data? This cannot be undone.",
                     "OK", "Cancel");
 
-                if (!confirm) return;
+                if (!confirm)
+                {
+                    return;
+                }
 
                 await Application.Current.MainPage.DisplayAlert(
                     "Done",

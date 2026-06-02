@@ -93,7 +93,10 @@ namespace Assessment.ViewModels
         [RelayCommand]
         private async Task CopyLocation()
         {
-            if (!HasLocation) return;
+            if (!HasLocation)
+            {
+                return;
+            }
 
             var text = $"Longitude: {CurrentLongitude:F6}, Latitude: {CurrentLatitude:F6}";
             await Clipboard.Default.SetTextAsync(text);

@@ -35,7 +35,7 @@ namespace Assessment.Services
                     var placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
                     var firstPlacemark = placemarks?.FirstOrDefault();
                     address = firstPlacemark is not null
-                        ? $"{firstPlacemark.Locality ?? ""} {firstPlacemark.Thoroughfare ?? ""} {firstPlacemark.SubThoroughfare ?? ""}".Trim()
+                        ? $"{firstPlacemark.Locality ?? string.Empty} {firstPlacemark.Thoroughfare ?? string.Empty} {firstPlacemark.SubThoroughfare ?? string.Empty}".Trim()
                         : "Unknown address";
                 }
                 catch
@@ -59,14 +59,14 @@ namespace Assessment.Services
 
         public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            var R = 6371;
+            var r = 6371;
             var dLat = ToRad(lat2 - lat1);
             var dLon = ToRad(lon2 - lon1);
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                    Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
-                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            var a = (Math.Sin(dLat / 2) * Math.Sin(dLat / 2)) +
+                    (Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2));
             var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            return R * c;
+            return r * c;
         }
 
         private static double ToRad(double deg)

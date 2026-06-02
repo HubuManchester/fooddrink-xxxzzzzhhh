@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using Assessment.Models;
 using Assessment.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace Assessment.ViewModels
 {
@@ -49,7 +49,9 @@ namespace Assessment.ViewModels
         private void DecreaseQuantity(CartItem item)
         {
             if (item.Quantity > 1)
+            {
                 _cartService.UpdateQuantity(item.Dish, item.Quantity - 1);
+            }
         }
 
         [RelayCommand]

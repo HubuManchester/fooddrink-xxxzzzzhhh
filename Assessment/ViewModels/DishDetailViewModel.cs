@@ -1,14 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Assessment.Models;
 using Assessment.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Media;
 
 namespace Assessment.ViewModels
 {
     [QueryProperty(nameof(Dish), "Dish")]
     public partial class DishDetailViewModel : BaseViewModel
     {
+        private static readonly string[] ChunkSeparator = [". "];
+
         private readonly CartService _cartService;
+        private CancellationTokenSource? _cts;
+        private int _speechGeneration;
 
         public DishDetailViewModel(CartService cartService)
         {
@@ -34,7 +44,9 @@ namespace Assessment.ViewModels
         partial void OnDishChanged(Dish? value)
         {
             if (value != null)
+            {
                 Title = value.Name;
+            }
         }
 
         [RelayCommand]
@@ -65,19 +77,25 @@ namespace Assessment.ViewModels
         private void DecreaseQuantity()
         {
             if (Quantity > 1)
+            {
                 Quantity--;
+            }
         }
 
         [RelayCommand]
         private async Task OpenFullScreenImage()
         {
-            if (Dish == null) return;
+            if (Dish == null)
+            {
+                return;
+            }
 
             var navigationParameter = new Dictionary<string, object>
             {
                 { "ImageName", Dish.ImageName },
-                { "DishName", Dish.Name }
+                { "DishName", Dish.Name },
             };
+
             await Shell.Current.GoToAsync(nameof(Views.FullScreenImagePage), navigationParameter);
         }
 
@@ -86,7 +104,11 @@ namespace Assessment.ViewModels
         {
             try
             {
-                if (Dish == null) return;
+                if (Dish == null)
+                {
+                    return;
+                }
+
                 _cartService.AddToCart(Dish, Quantity);
             }
             catch (Exception ex)
@@ -95,46 +117,82 @@ namespace Assessment.ViewModels
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(AllowConcurrentExecutions = true)]
         private async Task SpeakDescription()
         {
+            if (Dish == null)
+            {
+                return;
+            }
+
+            if (IsSpeaking)
+            {
+                _cts?.Cancel();
+                return;
+            }
+
+            _speechGeneration++;
+            var generation = _speechGeneration;
+
+            _cts?.Dispose();
+            _cts = new CancellationTokenSource();
+
+            IsSpeaking = true;
+            SpeechButtonText = "Stop";
+
             try
             {
-                if (Dish == null) return;
+                var text = $"{Dish.Name}. {Dish.Description}. Price: {Dish.Price} yuan. " +
+                           $"Preparation time: approximately {Dish.PrepTimeMinutes} minutes.";
 
-                if (IsSpeaking)
+                var chunks = text.Split(ChunkSeparator, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var rawChunk in chunks)
                 {
-                    IsSpeaking = false;
-                    SpeechButtonText = "Play Description";
-                    return;
+                    _cts.Token.ThrowIfCancellationRequested();
+
+                    var chunk = rawChunk.Trim();
+
+                    if (chunk.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    if (!chunk.EndsWith('.'))
+                    {
+                        chunk += ".";
+                    }
+
+                    // 传入 null 作为 SpeechOptions，明确匹配三参数重载
+                    // SpeakAsync(string, SpeechOptions?, CancellationToken)
+                    // 底层 TTS 引擎收到取消信号后立即停止当前段播放
+                    await TextToSpeech.Default.SpeakAsync(chunk, null, _cts.Token);
                 }
-
-                IsSpeaking = true;
-                SpeechButtonText = "Stop";
-
-                var options = new SpeechOptions
-                {
-                    Pitch = 1.0f,
-                    Volume = 1.0f
-                };
-
-                var text = $"{Dish.Name}. {Dish.Description}. Price: {Dish.Price} yuan. Preparation time: approximately {Dish.PrepTimeMinutes} minutes.";
-
-                await TextToSpeech.Default.SpeakAsync(text, options);
-
-                IsSpeaking = false;
-                SpeechButtonText = "Play Description";
+            }
+            catch (OperationCanceledException)
+            {
+                // 用户点击了停止，正常退出
             }
             catch (Exception ex)
             {
-                IsSpeaking = false;
-                SpeechButtonText = "Play Description";
-                SetError($"Speech failed: {ex.Message}. Please check if text-to-speech is supported on this device.");
+                MainThread.BeginInvokeOnMainThread(() =>
+                    SetError($"Speech failed: {ex.Message}"));
+            }
+            finally
+            {
+                _cts?.Dispose();
+                _cts = null;
+
+                if (generation == _speechGeneration)
+                {
+                    IsSpeaking = false;
+                    SpeechButtonText = "Play Description";
+                }
             }
         }
 
         [RelayCommand]
-        private async Task GoBack()
+        private static async Task GoBack()
         {
             await Shell.Current.GoToAsync("..");
         }
