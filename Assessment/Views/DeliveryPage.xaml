@@ -7,26 +7,29 @@
              Title="Delivery">
 
     <ScrollView>
-        <VerticalStackLayout Padding="15" Spacing="15">
+        <VerticalStackLayout Padding="{OnIdiom Phone=15, Tablet='40,20'}" Spacing="15"
+                             MaximumWidthRequest="{OnIdiom Phone=9999, Tablet=680}">
 
-            <Frame IsVisible="{Binding HasError}" 
+            <Frame IsVisible="{Binding HasError}"
                    BackgroundColor="#FFF3CD" Padding="10" CornerRadius="8"
                    HasShadow="False" BorderColor="#FFC107">
                 <Label Text="{Binding ErrorMessage}" TextColor="#856404" FontSize="14"
                        HorizontalOptions="Center" />
             </Frame>
 
-            <Frame Padding="15" CornerRadius="12" HasShadow="True" 
+            <Frame Padding="15" CornerRadius="12" HasShadow="True"
                    BorderColor="Transparent" BackgroundColor="White">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="📍 Delivery Address" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="📍 Delivery Address"
+                           FontSize="{OnIdiom Phone=18, Tablet=20}"
+                           FontAttributes="Bold" />
 
-                    <Button Text="{Binding IsBusy, Converter={StaticResource BoolToLocationTextConverter}}" 
+                    <Button Text="{Binding IsBusy, Converter={StaticResource BoolToLocationTextConverter}}"
                             FontSize="14" CornerRadius="8"
                             Command="{Binding GetLocationCommand}"
                             IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}" />
 
-                    <Frame IsVisible="{Binding HasLocation}" 
+                    <Frame IsVisible="{Binding HasLocation}"
                            BackgroundColor="#E8F5E9" CornerRadius="8" Padding="12"
                            HasShadow="False" BorderColor="#C8E6C9">
                         <VerticalStackLayout Spacing="4">
@@ -45,54 +48,58 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Padding="15" CornerRadius="12" HasShadow="True" 
+            <Frame Padding="15" CornerRadius="12" HasShadow="True"
                    BorderColor="Transparent" BackgroundColor="White">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="📝 Delivery Info" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="📝 Delivery Info"
+                           FontSize="{OnIdiom Phone=18, Tablet=20}"
+                           FontAttributes="Bold" />
 
                     <Label Text="Address" FontSize="14" FontAttributes="Bold" />
-                    <Entry Text="{Binding DeliveryAddress}" 
+                    <Entry Text="{Binding DeliveryAddress}"
                            Placeholder="Enter detailed delivery address"
                            FontSize="14" ClearButtonVisibility="WhileEditing" />
 
                     <Label Text="Phone" FontSize="14" FontAttributes="Bold" />
-                    <Entry Text="{Binding PhoneNumber}" 
+                    <Entry Text="{Binding PhoneNumber}"
                            Placeholder="Enter phone number"
                            Keyboard="Telephone" FontSize="14"
                            ClearButtonVisibility="WhileEditing" />
 
                     <Label Text="Note (optional)" FontSize="14" FontAttributes="Bold" />
-                    <Editor Text="{Binding Note}" 
+                    <Editor Text="{Binding Note}"
                             Placeholder="Special requests or notes..."
                             HeightRequest="80" FontSize="14" />
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Padding="15" CornerRadius="12" HasShadow="True" 
+            <Frame Padding="15" CornerRadius="12" HasShadow="True"
                    BorderColor="Transparent" BackgroundColor="White"
                    IsVisible="{Binding HasItems}">
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="🛒 Order Summary" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="🛒 Order Summary"
+                           FontSize="{OnIdiom Phone=18, Tablet=20}"
+                           FontAttributes="Bold" />
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Text="Items" FontSize="14" TextColor="{StaticResource Gray500}" />
-                        <Label Grid.Column="1" Text="{Binding ItemCount, StringFormat='{0} items'}" 
+                        <Label Grid.Column="1" Text="{Binding ItemCount, StringFormat='{0} items'}"
                                FontSize="14" FontAttributes="Bold" />
                     </Grid>
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Text="Total" FontSize="14" TextColor="{StaticResource Gray500}" />
-                        <Label Grid.Column="1" Text="{Binding TotalPrice, StringFormat='¥{0:F2}'}" 
+                        <Label Grid.Column="1" Text="{Binding TotalPrice, StringFormat='¥{0:F2}'}"
                                FontSize="18" FontAttributes="Bold" TextColor="#FF6B6B" />
                     </Grid>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame Padding="15" CornerRadius="12" HasShadow="False" 
+            <Frame Padding="15" CornerRadius="12" HasShadow="False"
                    BorderColor="Transparent" BackgroundColor="#FFF3E0"
                    IsVisible="{Binding HasItems, Converter={StaticResource InvertBoolConverter}}">
                 <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                    <Label Text="🛒 Empty Cart" FontSize="16" FontAttributes="Bold" 
+                    <Label Text="🛒 Empty Cart" FontSize="16" FontAttributes="Bold"
                            HorizontalOptions="Center" TextColor="#E65100" />
-                    <Label Text="Please go to the menu page to add dishes" FontSize="13" 
+                    <Label Text="Please go to the menu page to add dishes" FontSize="13"
                            HorizontalOptions="Center" TextColor="#BF360C" />
                     <Button Text="Go to Menu" FontSize="14"
                             BackgroundColor="#FF9800" CornerRadius="8"
@@ -101,8 +108,11 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <Button Text="Place Delivery Order" FontSize="18" FontAttributes="Bold"
-                    BackgroundColor="#4CAF50" CornerRadius="12" HeightRequest="50"
+            <Button Text="Place Delivery Order"
+                    FontSize="{OnIdiom Phone=18, Tablet=20}"
+                    FontAttributes="Bold"
+                    BackgroundColor="#4CAF50" CornerRadius="12"
+                    HeightRequest="{OnIdiom Phone=50, Tablet=58}"
                     Command="{Binding SubmitDeliveryCommand}"
                     IsVisible="{Binding HasItems}"
                     HorizontalOptions="Fill" />

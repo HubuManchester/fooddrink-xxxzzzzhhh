@@ -52,7 +52,7 @@ namespace Assessment.ViewModels
             Dishes = new ObservableCollection<Dish>(_dishService.GetAllDishes());
         }
 
-        private void LoadReviews()
+        internal void LoadReviews()
         {
             Reviews = new ObservableCollection<Review>(_reviewService.GetAllReviews());
         }

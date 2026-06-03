@@ -28,8 +28,14 @@ namespace Assessment.ViewModels
         {
             _dishService = dishService;
             _cartService = cartService;
+            _cartService.CartChanged += OnCartChanged;
             Title = "Dishes";
             LoadDishes();
+        }
+
+        private void OnCartChanged()
+        {
+            CartItemCount = _cartService.ItemCount;
         }
 
         [ObservableProperty]

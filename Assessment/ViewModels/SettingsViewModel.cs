@@ -7,10 +7,14 @@ namespace Assessment.ViewModels
     public partial class SettingsViewModel : BaseViewModel
     {
         private readonly ThemeService _themeService;
+        private readonly CartService _cartService;
+        private readonly ReviewService _reviewService;
 
-        public SettingsViewModel(ThemeService themeService)
+        public SettingsViewModel(ThemeService themeService, CartService cartService, ReviewService reviewService)
         {
             _themeService = themeService;
+            _cartService = cartService;
+            _reviewService = reviewService;
             Title = "Settings";
             _isDarkMode = _themeService.IsDarkMode;
             UpdateThemeText();
@@ -79,9 +83,12 @@ namespace Assessment.ViewModels
                     return;
                 }
 
+                _cartService.ClearCart();
+                _reviewService.ClearReviews();
+
                 await Application.Current.MainPage.DisplayAlert(
                     "Done",
-                    "All data has been reset.",
+                    "Shopping cart and review records have been cleared.",
                     "OK");
             }
         }

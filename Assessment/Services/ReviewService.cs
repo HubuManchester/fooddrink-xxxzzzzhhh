@@ -17,6 +17,11 @@ namespace Assessment.Services
             return _reviews.OrderByDescending(r => r.ReviewDate).ToList();
         }
 
+        public void ClearReviews()
+        {
+            _reviews.Clear();
+        }
+
         public void AddReview(Review review)
         {
             review.Id = _nextId++;

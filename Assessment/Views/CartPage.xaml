@@ -10,16 +10,17 @@
     <Grid RowDefinitions="*,Auto,Auto" Padding="0">
 
         <Grid Grid.Row="0">
-            <CollectionView ItemsSource="{Binding CartItems}" 
-                            SelectionMode="None" Margin="10">
+            <CollectionView ItemsSource="{Binding CartItems}"
+                            SelectionMode="None"
+                            Margin="{OnIdiom Phone='10', Tablet='20,10'}">
                 <CollectionView.EmptyView>
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="15">
                         <Label Text="🛒" FontSize="64" HorizontalOptions="Center" />
-                        <Label Text="Your cart is empty" FontSize="20" FontAttributes="Bold" 
+                        <Label Text="Your cart is empty" FontSize="20" FontAttributes="Bold"
                                HorizontalOptions="Center" TextColor="{StaticResource Gray500}" />
-                        <Label Text="Browse dishes and add your favorites!" FontSize="14" 
+                        <Label Text="Browse dishes and add your favorites!" FontSize="14"
                                HorizontalOptions="Center" TextColor="{StaticResource Gray400}" />
-                        <Button Text="Browse Dishes" 
+                        <Button Text="Browse Dishes"
                                 Command="{Binding ContinueShoppingCommand}"
                                 HorizontalOptions="Center" Margin="0,10,0,0" />
                     </VerticalStackLayout>
@@ -27,35 +28,45 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:CartItem">
                         <Frame Margin="0,5" Padding="12" CornerRadius="10" HasShadow="True"
-                               BorderColor="Transparent" BackgroundColor="White">
+                               BorderColor="Transparent" BackgroundColor="White"
+                               MaximumWidthRequest="{OnIdiom Phone=9999, Tablet=700}"
+                               HorizontalOptions="{OnIdiom Phone=Fill, Tablet=Center}">
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                                <Frame CornerRadius="8" Padding="0" WidthRequest="70" HeightRequest="70"
-                                       BackgroundColor="{StaticResource Gray100}" 
+                                <Frame CornerRadius="8" Padding="0"
+                                       WidthRequest="{OnIdiom Phone=70, Tablet=90}"
+                                       HeightRequest="{OnIdiom Phone=70, Tablet=90}"
+                                       BackgroundColor="{StaticResource Gray100}"
                                        HasShadow="False" BorderColor="Transparent">
                                     <Image Source="{Binding Dish.ImageName, Converter={StaticResource DishImageConverter}}" Aspect="AspectFill" />
                                 </Frame>
 
                                 <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                    <Label Text="{Binding Dish.Name}" FontSize="15" FontAttributes="Bold" />
-                                    <Label Text="{Binding Dish.Price, StringFormat='¥{0:F2}'}" 
+                                    <Label Text="{Binding Dish.Name}"
+                                           FontSize="{OnIdiom Phone=15, Tablet=17}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding Dish.Price, StringFormat='¥{0:F2}'}"
                                            FontSize="13" TextColor="{StaticResource Gray500}" />
                                     <HorizontalStackLayout Spacing="8">
-                                        <Button Text="-" FontSize="14" WidthRequest="30" HeightRequest="30"
-                                                CornerRadius="15" Padding="0"
+                                        <Button Text="-" FontSize="14"
+                                                WidthRequest="{OnIdiom Phone=30, Tablet=38}"
+                                                HeightRequest="{OnIdiom Phone=30, Tablet=38}"
+                                                CornerRadius="19" Padding="0"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartViewModel}}, Path=DecreaseQuantityCommand}"
                                                 CommandParameter="{Binding .}" />
-                                        <Label Text="{Binding Quantity}" FontSize="14" 
+                                        <Label Text="{Binding Quantity}" FontSize="14"
                                                VerticalOptions="Center" WidthRequest="24"
                                                HorizontalTextAlignment="Center" />
-                                        <Button Text="+" FontSize="14" WidthRequest="30" HeightRequest="30"
-                                                CornerRadius="15" Padding="0"
+                                        <Button Text="+" FontSize="14"
+                                                WidthRequest="{OnIdiom Phone=30, Tablet=38}"
+                                                HeightRequest="{OnIdiom Phone=30, Tablet=38}"
+                                                CornerRadius="19" Padding="0"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartViewModel}}, Path=IncreaseQuantityCommand}"
                                                 CommandParameter="{Binding .}" />
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Grid.Column="2" Spacing="8" VerticalOptions="Center">
-                                    <Label Text="{Binding TotalPrice, StringFormat='¥{0:F2}'}" 
+                                    <Label Text="{Binding TotalPrice, StringFormat='¥{0:F2}'}"
                                            FontSize="15" FontAttributes="Bold" TextColor="#FF6B6B"
                                            HorizontalTextAlignment="End" />
                                     <Button Text="Remove" FontSize="11" HeightRequest="28"
@@ -70,24 +81,27 @@
             </CollectionView>
         </Grid>
 
-        <Frame Grid.Row="1" IsVisible="{Binding HasError}" 
+        <Frame Grid.Row="1" IsVisible="{Binding HasError}"
                BackgroundColor="#FFF3CD" Padding="10" CornerRadius="0"
                HasShadow="False" BorderColor="#FFC107">
             <Label Text="{Binding ErrorMessage}" TextColor="#856404" FontSize="13"
                    HorizontalOptions="Center" />
         </Frame>
 
-        <Grid Grid.Row="2" BackgroundColor="White" Padding="15,10" 
+        <Grid Grid.Row="2" BackgroundColor="White"
+              Padding="{OnIdiom Phone='15,10', Tablet='30,14'}"
               RowDefinitions="Auto,Auto" RowSpacing="8"
               IsVisible="{Binding IsEmpty, Converter={StaticResource InvertBoolConverter}}">
 
-            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10"
+                  MaximumWidthRequest="{OnIdiom Phone=9999, Tablet=700}"
+                  HorizontalOptions="{OnIdiom Phone=Fill, Tablet=Center}">
                 <VerticalStackLayout>
                     <Label Text="Total" FontSize="13" TextColor="{StaticResource Gray500}" />
-                    <Label Text="{Binding TotalPrice, StringFormat='¥{0:F2}'}" 
+                    <Label Text="{Binding TotalPrice, StringFormat='¥{0:F2}'}"
                            FontSize="22" FontAttributes="Bold" TextColor="#FF6B6B" />
                 </VerticalStackLayout>
-                <Button Text="Place Order" 
+                <Button Text="Place Order"
                         FontSize="16" FontAttributes="Bold"
                         BackgroundColor="#4CAF50"
                         CornerRadius="10" Padding="20,12"
@@ -95,7 +109,7 @@
                         VerticalOptions="Center" />
             </Grid>
             <HorizontalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="Center">
-                <Button Text="Clear Cart" FontSize="12" 
+                <Button Text="Clear Cart" FontSize="12"
                         BackgroundColor="Transparent" TextColor="#FF5252"
                         BorderColor="#FF5252" BorderWidth="1" CornerRadius="6"
                         Command="{Binding ClearCartCommand}" />
